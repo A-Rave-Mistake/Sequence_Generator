@@ -23,7 +23,7 @@ The program has variety of uses, like random full name generator, password gener
 
 # Documentation
 
-### Dictionary
+## Dictionary
 **sequence** - a list of results created in a specified way  
 **result** - a string created from generator(s)  
 **combination** - same as **result**  
@@ -116,7 +116,18 @@ This settings inserts every result into a separate line.
   
 (New line wrapping disabled)  
 <img src="https://i.imgur.com/pbujDMd.jpg" alt="newline2">
-
+  
+ <!--  
+ -->  
+  
+  
+# Example Uses  
+  
+**Example #1:** Password Generator  
+<img src="https://i.imgur.com/1StSjAS.jpg" alt="separator1">  
+  
+**Example #2:** Indexed Alphabet Letters  
+<img src="https://i.imgur.com/IsSIzTq.jpg" alt="separator1">  
 
 ---
 

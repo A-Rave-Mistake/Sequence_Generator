@@ -1,30 +1,3 @@
-# --- GENERAL INFO ---
-
-    # This file contains general use functions, although this file is mainly used for generating output. Most of the work is done in menus.py
-
-
-# --- LICENSE ---
-
-    # Copyright (C) 2022 Adrian Urbaniak (FancySnacks)
-
-    # This program is free software: you can redistribute it and/or modify
-    # it under the terms of the GNU General Public License as published by
-    # the Free Software Foundation, either version 3 of the License, or
-    # (at your option) any later version.
-
-    # This program is distributed in the hope that it will be useful,
-    # but WITHOUT ANY WARRANTY; without even the implied warranty of
-    # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    # GNU General Public License for more details.
-
-    # You should have received a copy of the GNU General Public License
-    # along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
-    
-
-# --- SCRIPT BEGINS HERE ---
-    
-    
 import menus
 import main
 import string
@@ -39,20 +12,20 @@ SYMBOLS = string.punctuation
 CHARS = ''.join([UPPERCASE, LOWERCASE, NUMBERS, SYMBOLS])
 
 
-# begin the program, create GUI class and display the window
+
 def initialize():
     main.MainWindow = menus.MainWindow()
 
 
 # generate sequence
 def generate_output(generator_master, total_results, separator, use_new_lines, c_start_with, c_end_with, match_file_length, s_start_with, s_end_with):
-    # create temporary session class for this sequence
     main.session = menus.Session()
     generator_master.master.output_clear()
-    # either create x amount of combinations the user wishes for OR create as much combinations as the length of shortest text file allows
     num_of_results = int(total_results) if not match_file_length else generator_master.get_shortest_file()
+    index = 0
+    out_isvalid = True
 
-    # loop n times through generators
+    # loop n times depending on how many combinations we want
     for i in range(0, num_of_results):
         index = i
         main.session.result += c_start_with
@@ -65,36 +38,58 @@ def generate_output(generator_master, total_results, separator, use_new_lines, c
                 gen_startwith = generator_id.start_with.get()
                 gen_endwith = generator_id.end_with.get()
 
-                construct_combination(generator_id, index, gen_startwith, gen_endwith, separator, c_end_with, num_of_results)
+                if construct_combination(generator_id, index, gen_startwith, gen_endwith) != None:
+                    out_isvalid = True
+                else:
+                    out_isvalid = False
+
+            if out_isvalid == True:
+                main.session.result += "{separator}{comb_endwith}".format(
+                    separator=separator if index != num_of_results - 1 else "", comb_endwith=c_end_with)
+
             if use_new_lines:
                 main.session.result += "\n"
 
-        # loop through every generator but use random generator order
+        # use random generator order
         elif generator_master.master.order.get() == "Random":
             for generator in generator_master.generators:
                 generator_id = random.choice(generator_master.generators)
                 gen_startwith = generator_id.start_with.get()
                 gen_endwith = generator_id.end_with.get()
 
-                construct_combination(generator_id, index, gen_startwith, gen_endwith, separator, c_end_with, num_of_results)
+                if construct_combination(generator_id, index, gen_startwith, gen_endwith) != None:
+                    out_isvalid = True
+                else:
+                    out_isvalid = False
+
+            if out_isvalid == True:
+                main.session.result += "{separator}{comb_endwith}".format(
+                    separator=separator if index != num_of_results - 1 else "", comb_endwith=c_end_with)
+
             if use_new_lines:
                 main.session.result += "\n"
 
-        # loop through every generator but use only ONE random generator per combination
-        # best used for password generation
+        # use random generator order
         elif generator_master.master.order.get() == "Random (Sequence)":
             generator_id = random.choice(generator_master.generators)
             gen_startwith = generator_id.start_with.get()
             gen_endwith = generator_id.end_with.get()
 
-            construct_combination(generator_id, index, gen_startwith, gen_endwith, separator, c_end_with, num_of_results)
+            if construct_combination(generator_id, index, gen_startwith, gen_endwith) != None:
+                out_isvalid = True
+            else:
+                out_isvalid = False
+
+            if out_isvalid == True:
+                main.session.result += "{separator}{comb_endwith}".format(
+                    separator=separator if index != num_of_results - 1 else "", comb_endwith=c_end_with)
+
             if use_new_lines:
                 main.session.result += "\n"
 
-        # loop through every generator but use random generator order but each generator can only be used ONCE
+        # same as above elif but each generator can be used only once
         elif generator_master.master.order.get() == "Random (Unique)":
             main.session.generators_unique.clear()
-            
             for i in range(0, len(generator_master.generators)):
                 main.session.generators_unique.append(str(i))
 
@@ -104,33 +99,42 @@ def generate_output(generator_master, total_results, separator, use_new_lines, c
                 gen_startwith = generator_id.start_with.get()
                 gen_endwith = generator_id.end_with.get()
 
-                construct_combination(generator_id, index, gen_startwith, gen_endwith, separator, c_end_with, num_of_results)
+                if construct_combination(generator_id, index, gen_startwith, gen_endwith) != None:
+                    out_isvalid = True
+                else:
+                    out_isvalid = False
+
                 remove_generator(idg)
+
+            if out_isvalid == True:
+                main.session.result += "{separator}{comb_endwith}".format(
+                    separator=separator if index != num_of_results - 1 else "", comb_endwith=c_end_with)
+
             if use_new_lines:
                 main.session.result += "\n"
 
-    # insert output into the text field and clear session
+
     insert_output(generator_master.master)
     main.session = None
-
 
 
 def insert_output(master):
     master.insert_output()
 
 
-def construct_combination(generator_id, index, gen_startwith, gen_endwith, separator, c_endwith, final_index):
+def construct_combination(generator_id, index, gen_startwith, gen_endwith):
     output = str(get_input(generator_id, index)).replace("\n", "")
 
     if output != "None":
-     main.session.result += "{gen_startwith}{result}{gen_endwith}{comb_endwith}{separator}".format(gen_startwith = gen_startwith,
+        stra = "{gen_startwith}{result}{gen_endwith}".format(gen_startwith = gen_startwith,
                                                                                     result = output,
                                                                                     gen_endwith = gen_endwith,
-                                                                                    comb_endwith =c_endwith,
-                                                                                    separator = separator if index != final_index-1 else "",
                                                                                     )
+        main.session.result += stra
+        return stra
     else:
         print("No such item exists")
+        return None
 
 
 # get input type of target generator and return result
@@ -177,7 +181,6 @@ def get_input(generator, index):
             return get_random_line_from_file(False)
         else:
             return get_random_line_from_file(True)
-        
     elif input == "custom input":
         return generator.custom_text.get()
     else:

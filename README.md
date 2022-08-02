@@ -118,7 +118,7 @@ This settings inserts every result into a separate line.
 <img src="https://i.imgur.com/pbujDMd.jpg" alt="newline2">
 
 
-
+---
 
 ## Contact
 Adrian Urbaniak - @snacks_fancy - adrian.urbaniak1336@gmail.com

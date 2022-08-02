@@ -1,3 +1,30 @@
+# --- GENERAL INFO ---
+
+    # This file contains mainly GUI classes but also a Session class that is created upon generating results and Generator Container class that manages all generators
+
+
+# --- LICENSE ---
+
+    # Copyright (C) 2022 Adrian Urbaniak (FancySnacks)
+
+    # This program is free software: you can redistribute it and/or modify
+    # it under the terms of the GNU General Public License as published by
+    # the Free Software Foundation, either version 3 of the License, or
+    # (at your option) any later version.
+
+    # This program is distributed in the hope that it will be useful,
+    # but WITHOUT ANY WARRANTY; without even the implied warranty of
+    # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    # GNU General Public License for more details.
+
+    # You should have received a copy of the GNU General Public License
+    # along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+    
+
+# --- SCRIPT BEGINS HERE ---
+
+
 from tkinter import *
 from tkinter import ttk, filedialog
 import main
@@ -5,6 +32,7 @@ import functions
 
 
 
+# Main window of the program
 class MainWindow:
 
     def __init__(self):
@@ -280,7 +308,7 @@ class MainWindow:
 
 
 
-# Contains all generators
+# Contains all generators and manages them
 class GeneratorContainer:
 
     def __init__(self, parent, master, window_root):
@@ -318,6 +346,8 @@ class GeneratorContainer:
 
 
 
+# A generator can create a result from letters, numbers, symbols and lines from text files, in order or in random order
+# Multiple generators are joined together and create a combination
 class Generator:
 
     def __init__(self, master, parent, index, window_root):
@@ -508,6 +538,7 @@ class Generator:
 
 
 
+# Is created temporarily when "generate" button is pressed, contains useful info and allows for removal of duplicates
 class Session:
     result = ""
     file_contents = ""

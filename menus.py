@@ -1,30 +1,3 @@
-# --- GENERAL INFO ---
-
-    # This file contains mainly GUI classes but also a Session class that is created upon generating results and Generator Container class that manages all generators
-
-
-# --- LICENSE ---
-
-    # Copyright (C) 2022 Adrian Urbaniak (FancySnacks)
-
-    # This program is free software: you can redistribute it and/or modify
-    # it under the terms of the GNU General Public License as published by
-    # the Free Software Foundation, either version 3 of the License, or
-    # (at your option) any later version.
-
-    # This program is distributed in the hope that it will be useful,
-    # but WITHOUT ANY WARRANTY; without even the implied warranty of
-    # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    # GNU General Public License for more details.
-
-    # You should have received a copy of the GNU General Public License
-    # along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
-    
-
-# --- SCRIPT BEGINS HERE ---
-
-
 from tkinter import *
 from tkinter import ttk, filedialog
 import main
@@ -32,7 +5,6 @@ import functions
 
 
 
-# Main window of the program
 class MainWindow:
 
     def __init__(self):
@@ -76,7 +48,7 @@ class MainWindow:
 
 
         # Window Size
-        self.window_height = 675
+        self.window_height = 710
         self.window_width = 465
         self.x = int((self.root.winfo_screenwidth() / 2) - (self.window_width / 2))
         self.y = int((self.root.winfo_screenheight() / 2) - (self.window_height / 2))
@@ -242,7 +214,10 @@ class MainWindow:
         self.OutputSaveButton.grid(row=0, column=1, sticky=W)
 
         self.OutputInfoLabel = Label(self.SaveButtonFrame, text="Unsaved!", font=("Arial", 10))
-        self.OutputInfoLabel.grid(row=0, column=2, sticky=W)
+        self.OutputInfoLabel.grid(row=0, column=3, sticky=W)
+
+        self.AuthorInfoLabel = Label(self.SaveButtonFrame, text=" Copyright (C) 2022 Adrian Urbaniak (FancySnacks) using GNU GPL 3.0 License", pady=10, font=("Arial", 7))
+        self.AuthorInfoLabel.grid(row=1, column=0, columnspan=8, sticky=W)
 
 
         self.root.mainloop()
@@ -252,7 +227,7 @@ class MainWindow:
     # Detect mouse scroll and scroll the content
     # (canvas can't automatically assign mousewheel to scrollbars as it seems)
     def on_mousewheel(self, event):
-        if self.mainFrame.winfo_height() > 665:
+        if self.mainFrame.winfo_height() > 765:
             self.canvas.yview_scroll(int(-1 * (event.delta / 120)), "units")
 
 
@@ -308,7 +283,7 @@ class MainWindow:
 
 
 
-# Contains all generators and manages them
+# Contains all generators
 class GeneratorContainer:
 
     def __init__(self, parent, master, window_root):
@@ -346,8 +321,6 @@ class GeneratorContainer:
 
 
 
-# A generator can create a result from letters, numbers, symbols and lines from text files, in order or in random order
-# Multiple generators are joined together and create a combination
 class Generator:
 
     def __init__(self, master, parent, index, window_root):
@@ -538,10 +511,9 @@ class Generator:
 
 
 
-# Is created temporarily when "generate" button is pressed, contains useful info and allows for removal of duplicates
 class Session:
     result = ""
-    file_contents = ""
+    file_contents = [""]
     content_lines_unique = ""
     file_num_of_lines = 0
     generators_unique = []

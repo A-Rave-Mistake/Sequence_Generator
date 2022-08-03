@@ -1,25 +1,3 @@
-# --- LICENSE ---
-
-    # Copyright (C) 2022 Adrian Urbaniak (FancySnacks)
-
-    # This program is free software: you can redistribute it and/or modify
-    # it under the terms of the GNU General Public License as published by
-    # the Free Software Foundation, either version 3 of the License, or
-    # (at your option) any later version.
-
-    # This program is distributed in the hope that it will be useful,
-    # but WITHOUT ANY WARRANTY; without even the implied warranty of
-    # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    # GNU General Public License for more details.
-
-    # You should have received a copy of the GNU General Public License
-    # along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
-
-
-# --- SCRIPT BEGINS HERE ---
-
-
 import menus
 import main
 import string
@@ -41,7 +19,8 @@ def initialize():
 
 # generate sequence
 def generate_output(generator_master, total_results, separator, use_new_lines, c_start_with, c_end_with, match_file_length, s_start_with, s_end_with):
-    main.session = menus.Session()
+    main.session = menus.Session("", {}, {}, 0, [], [])
+    print("Yeah" + str(main.session.content_lines_unique))
     generator_master.master.output_clear()
     num_of_results = int(total_results) if not match_file_length else generator_master.get_shortest_file()
     index = 0
@@ -198,41 +177,40 @@ def get_input(generator, index):
         main.session.insert_file_contents(generator)
 
         if generator.order_type.get() == "Ordered (1 -> n)":
-            return get_file_line(index)
+            return get_file_line(generator, index)
         elif generator.order_type.get() == "Random":
-            return get_random_line_from_file(False)
+            return get_random_line_from_file(False, generator)
         else:
-            return get_random_line_from_file(True)
+            return get_random_line_from_file(True, generator)
+
     elif input == "custom input":
         return generator.custom_text.get()
     else:
         return None
 
 
-def get_file_line(index):
+def get_file_line(generator, index):
     try:
-        return main.session.file_contents[index]
+        return main.session.file_contents[generator.index.get()][0][index]
     except Exception as e:
-        print("No item with such index")
+        print("No line with such index")
         return None
 
-def get_random_line_from_file(b_no_duplicates):
+def get_random_line_from_file(b_no_duplicates, generator):
     if b_no_duplicates:
         try:
-            choice = random.choice(main.session.content_lines_unique)
-            index = main.session.content_lines_unique.index(choice)
-            content = main.session.file_contents[index]
-            remove_line(index)
-            return content
+            choice = random.choice(main.session.content_lines_unique[generator.index.get()][0])
+            index = main.session.content_lines_unique[generator.index.get()][0].index(choice)
+            remove_line(generator, index)
+            return choice
         except Exception as e:
             print("No item with such index")
             return None
     else:
-        index = random.randint(0, main.session.num_of_lines-1)
-        return main.session.file_contents[index]
+        return random.choice(main.session.file_contents[generator.index.get()][0])
 
-def remove_line(index):
-    main.session.remove_line(index)
+def remove_line(generator, index):
+    main.session.remove_line(generator, index)
 
 def remove_generator(ref):
     main.session.generators_unique.remove(ref)

@@ -1,25 +1,3 @@
-# --- LICENSE ---
-
-    # Copyright (C) 2022 Adrian Urbaniak (FancySnacks)
-
-    # This program is free software: you can redistribute it and/or modify
-    # it under the terms of the GNU General Public License as published by
-    # the Free Software Foundation, either version 3 of the License, or
-    # (at your option) any later version.
-
-    # This program is distributed in the hope that it will be useful,
-    # but WITHOUT ANY WARRANTY; without even the implied warranty of
-    # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    # GNU General Public License for more details.
-
-    # You should have received a copy of the GNU General Public License
-    # along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
-
-
-# --- SCRIPT BEGINS HERE ---
-
-
 from tkinter import *
 from tkinter import ttk, filedialog
 import main
@@ -534,30 +512,36 @@ class Generator:
 
 
 class Session:
-    result = ""
-    file_contents = [""]
-    content_lines_unique = ""
-    file_num_of_lines = 0
-    generators_unique = []
-    combinations_unique = []
+
+    def __init__(self, result, file_contents, content_lines_unique, num_of_lines, generators_unique, combinations_unique):
+        self.result = result
+        self.file_contents = file_contents
+        self.content_lines_unique = content_lines_unique
+        self.file_num_of_lines = num_of_lines
+        self.generators_unique = generators_unique
+        self.combinations_unique = combinations_unique
 
     def reset_values(self):
         self.result = ""
-        self.file_contents = ""
+        self.file_contents = {}
+        self.content_lines_unique = {}
         self.file_num_of_lines = 0
-        self.content_lines_unique = []
         self.generators_unique = []
         self.combinations_unique = []
 
     def insert_file_contents(self, generator):
-        if self.file_contents == "":
-            file = open(generator.filepath, "r")
-            self.file_contents = file.readlines()
-            self.content_lines_unique = self.file_contents
-            self.num_of_lines = sum(1 for line in self.file_contents)
+        file = open(generator.filepath, "r")
+        if generator.index.get() not in self.file_contents.keys():
+            self.file_contents[generator.index.get()] = (file.readlines(), sum(1 for line in file))
             file.close()
-        else:
-            pass
+        if generator.index.get() not in self.content_lines_unique.keys():
+            file = open(generator.filepath, "r")
+            self.content_lines_unique[generator.index.get()] = (file.readlines(), sum(1 for line in file))
+            file.close()
+        file.close()
+        print(self.file_contents)
+        print(self.content_lines_unique)
 
-    def remove_line(self, line_index):
-        self.content_lines_unique.pop(line_index)
+    def remove_line(self, generator, line_index):
+        tuple = self.content_lines_unique[generator.index.get()]
+        tuple[0].pop(line_index)

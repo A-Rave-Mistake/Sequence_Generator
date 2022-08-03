@@ -1,24 +1,3 @@
-# --- LICENSE ---
-
-    # Copyright (C) 2022 Adrian Urbaniak (FancySnacks)
-
-    # This program is free software: you can redistribute it and/or modify
-    # it under the terms of the GNU General Public License as published by
-    # the Free Software Foundation, either version 3 of the License, or
-    # (at your option) any later version.
-
-    # This program is distributed in the hope that it will be useful,
-    # but WITHOUT ANY WARRANTY; without even the implied warranty of
-    # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    # GNU General Public License for more details.
-
-    # You should have received a copy of the GNU General Public License
-    # along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
-
-
-# --- SCRIPT BEGINS HERE ---
-
 import menus
 import main
 import string
@@ -40,6 +19,7 @@ def initialize():
 
 # generate sequence
 def generate_output(generator_master, total_results, separator, use_new_lines, c_start_with, c_end_with, match_file_length, s_start_with, s_end_with):
+    main.session = None
     main.session = menus.Session("", {}, {}, 0, [], [])
     print("Yeah" + str(main.session.content_lines_unique))
     generator_master.master.output_clear()
@@ -137,7 +117,6 @@ def generate_output(generator_master, total_results, separator, use_new_lines, c
 
 
     insert_output(generator_master.master)
-    main.session = None
 
 
 def insert_output(master):

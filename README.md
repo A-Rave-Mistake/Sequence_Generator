@@ -123,11 +123,17 @@ This settings inserts every result into a separate line.
   
 # Example Uses  
   
-**Example #1:** Password Generator  
-<img src="https://i.imgur.com/1StSjAS.jpg" alt="separator1">  
+### **Example #1:** Password Generator  
+<img src="https://i.imgur.com/1StSjAS.jpg" alt="passwordgenerator">  
   
-**Example #2:** Indexed Alphabet Letters  
-<img src="https://i.imgur.com/IsSIzTq.jpg" alt="separator1">  
+### **Example #2:** Indexed Alphabet Letters  
+<img src="https://i.imgur.com/IsSIzTq.jpg" alt="alphnum">  
+  
+### **Example #3:** Random Name Generator  
+<img src="https://i.imgur.com/euu04Sm.jpg" alt="namegenerator">  
+  
+### **Example #3:** Python Dictionary Generator  
+<img src="https://i.imgur.com/hSGdkco.jpg" alt="dictionary">
 
 ---
 

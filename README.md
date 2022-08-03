@@ -132,7 +132,7 @@ This settings inserts every result into a separate line.
 ### **Example #3:** Random Name Generator  
 <img src="https://i.imgur.com/euu04Sm.jpg" alt="namegenerator">  
   
-### **Example #3:** Python Dictionary Generator  
+### **Example #4:** Python Dictionary Generator  
 <img src="https://i.imgur.com/hSGdkco.jpg" alt="dictionary">
 
 ---

@@ -164,53 +164,47 @@ def construct_combination(generator_id, index, gen_startwith, gen_endwith):
 def get_input(generator, index):
 
     input = generator.input_type.get()
+    
+    # get input
 
     if input == "lowercase letters":
         try:
             return (LOWERCASE[index])
         except:
             return None
-
     elif input == "uppercase letters":
         try:
             return (UPPERCASE[index])
         except:
             return None
-
     elif input == "numbers":
         return index
-
     elif input == "random lowercase letters":
         return random.choice(LOWERCASE)
-
     elif input == "random uppercase letters":
         return random.choice(UPPERCASE)
-
     elif input == "random numbers":
         return random.randint(0,9)
-
     elif input == "random symbols":
         return random.choice(SYMBOLS)
-
     elif input == "random chars (aA123#/)":
         return CHARS[random.randint(0, len(CHARS)-1)]
-
+    
     elif input == "custom text file":
         main.session.insert_file_contents(generator)
-
         if generator.order_type.get() == "Ordered (1 -> n)":
             return get_file_line(generator, index)
         elif generator.order_type.get() == "Random":
             return get_random_line_from_file(False, generator)
         else:
             return get_random_line_from_file(True, generator)
-
     elif input == "custom input":
         return generator.custom_text.get()
     else:
         return None
 
 
+# get line from text file at target index
 def get_file_line(generator, index):
     try:
         return main.session.file_contents[generator.index.get()][0][index]

@@ -5,7 +5,6 @@
   <h3 align="center">SEQUENCE GENERATOR</h3>
   <h4 align="center">Generate sequence of combinations put together from ascii characters or from custom text files</h4>
   <p align="center">
-    Made by Adrian Urbaniak
   </p>
   <img src="https://i.imgur.com/aoGcd6t.jpg" alt="Logo">
   <p>(Screenshot representing the program in use)</p>

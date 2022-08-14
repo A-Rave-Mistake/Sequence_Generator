@@ -34,7 +34,7 @@ SYMBOLS = string.punctuation
 CHARS = ''.join([UPPERCASE, LOWERCASE, NUMBERS, SYMBOLS])
 
 
-
+# activate the program, create GUI
 def initialize():
     main.MainWindow = menus.MainWindow()
 

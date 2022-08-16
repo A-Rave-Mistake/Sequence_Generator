@@ -320,6 +320,7 @@ class GeneratorContainer:
 
     def remove_generator(self, index):
         self.generators.pop(index)
+        print(self.generators)
 
     def clear_generators(self):
         for gen in self.generators:
@@ -468,6 +469,7 @@ class Generator:
         self.Overlord.destroy()
         self.master.remove_generator(int(self.index.get())-1)
         self.master.update_indexes()
+        del self
 
 
     # show filepath info widget if user wants to use custom text file
